@@ -62,6 +62,11 @@ const Uploadfile = <T extends UploadableForm>({
     const files = e.target.files
     if (!files) return
 
+    // Reset the <input type="file"> right away so the browser doesn't keep
+    // this selection "staged" — otherwise picking the exact same file again
+    // later fires no change event at all (the input's value never changed).
+    e.target.value = ''
+
     const allFiles = form.images
     for (let i = 0; i < files.length; i++) {
       const file = files[i]
