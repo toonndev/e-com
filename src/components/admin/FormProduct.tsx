@@ -1,6 +1,6 @@
 import { Pencil, Trash2 } from 'lucide-react'
 import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react'
-import { toast } from 'react-toastify'
+import { toast } from '../../utils/toast'
 import { Link } from 'react-router-dom'
 import { createProduct, deleteProduct, type ProductForm } from '../../api/product'
 import useEcomStore from '../../store/ecom-store'

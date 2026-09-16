@@ -1,6 +1,6 @@
 import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import { useState, type FormEvent } from 'react'
-import { toast } from 'react-toastify'
+import { toast } from '../utils/toast'
 import { useNavigate } from 'react-router-dom'
 import { saveOrder } from '../api/user'
 import useEcomStore from '../store/ecom-store'

@@ -5,7 +5,7 @@ import AppRoutes from './routes/AppRoutes'
 function App() {
   return (
     <>
-      <ToastContainer />
+      <ToastContainer position="bottom-right" />
       <AppRoutes />
     </>
   )

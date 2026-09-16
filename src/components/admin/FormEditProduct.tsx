@@ -1,5 +1,5 @@
 import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react'
-import { toast } from 'react-toastify'
+import { toast } from '../../utils/toast'
 import { useNavigate, useParams } from 'react-router-dom'
 import { readProduct, updateProduct, type ProductForm } from '../../api/product'
 import useEcomStore from '../../store/ecom-store'

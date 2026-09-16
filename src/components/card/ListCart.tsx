@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { ListCheck } from 'lucide-react'
-import { toast } from 'react-toastify'
+import { toast } from '../../utils/toast'
 import { Link, useNavigate } from 'react-router-dom'
 import { createUserCart } from '../../api/user'
 import useEcomStore from '../../store/ecom-store'

@@ -1,7 +1,7 @@
 import { Loader, Upload, X } from 'lucide-react'
 import { useState, type ChangeEvent, type Dispatch, type SetStateAction } from 'react'
 import * as ResizerModule from 'react-image-file-resizer'
-import { toast } from 'react-toastify'
+import { toast } from '../../utils/toast'
 import { removeFiles, uploadFiles } from '../../api/product'
 import useEcomStore from '../../store/ecom-store'
 import type { ProductImage } from '../../types'
