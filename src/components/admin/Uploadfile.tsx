@@ -59,8 +59,11 @@ const Uploadfile = <T extends UploadableForm>({
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!token) return
-    const files = e.target.files
-    if (!files) return
+    if (!e.target.files) return
+    // e.target.files is a *live* FileList tied to the input — snapshot it into
+    // a real array before resetting the input's value below, otherwise the
+    // reset empties this same list out from under us (0-length, silent no-op).
+    const files = Array.from(e.target.files)
 
     // Reset the <input type="file"> right away so the browser doesn't keep
     // this selection "staged" — otherwise picking the exact same file again
