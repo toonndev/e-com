@@ -116,9 +116,8 @@ const FormEditProduct = () => {
               id="price"
               type="number"
               className={inputClass}
-              value={form.price === 0 ? '' : form.price}
+              value={form.price}
               onChange={handleOnChange}
-              onFocus={(e) => e.target.select()}
               placeholder="price"
               name="price"
             />
@@ -131,9 +130,8 @@ const FormEditProduct = () => {
               id="quantity"
               type="number"
               className={inputClass}
-              value={form.quantity === 0 ? '' : form.quantity}
+              value={form.quantity}
               onChange={handleOnChange}
-              onFocus={(e) => e.target.select()}
               placeholder="quantity"
               name="quantity"
             />
