@@ -75,7 +75,7 @@ const FormProduct = () => {
 
   const handleDelete = async (id: number) => {
     if (!token) return
-    if (window.confirm('จะลบจริงๆ หรอ')) {
+    if (window.confirm('ยืนยันการลบสินค้านี้หรือไม่? การดำเนินการนี้ไม่สามารถย้อนกลับได้')) {
       try {
         await deleteProduct(token, String(id))
         toast.success('ลบสินค้าเรียบร้อยแล้ว')
