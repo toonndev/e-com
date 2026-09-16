@@ -25,7 +25,10 @@ const BestSeller = () => {
   return (
     <SwiperShowProduct>
       {data?.map((item) => (
-        <SwiperSlide key={item.id}>
+        // Explicit width instead of relying on Swiper's "auto" JS measurement,
+        // which was unreliable here (measured ~full container width instead
+        // of the card's real 192px, leaving one huge empty-looking slide).
+        <SwiperSlide key={item.id} style={{ width: '192px' }}>
           <ProductCard item={item} />
         </SwiperSlide>
       ))}
