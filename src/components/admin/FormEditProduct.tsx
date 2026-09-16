@@ -5,6 +5,9 @@ import { readProduct, updateProduct, type ProductForm } from '../../api/product'
 import useEcomStore from '../../store/ecom-store'
 import Uploadfile from './Uploadfile'
 
+const inputClass =
+  'w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+
 const initialState: ProductForm = {
   title: 'Core i7',
   description: 'desc',
@@ -67,62 +70,71 @@ const FormEditProduct = () => {
   }
 
   return (
-    <div className="container mx-auto p-4 bg-white shadow-md">
-      <form onSubmit={handleSubmit}>
-        <h1>เพิ่มข้อมูลสินค้า</h1>
-        <input
-          className="border"
-          value={form.title}
-          onChange={handleOnChange}
-          placeholder="Title"
-          name="title"
-        />
-        <input
-          className="border"
-          value={form.description}
-          onChange={handleOnChange}
-          placeholder="Description"
-          name="description"
-        />
-        <input
-          type="number"
-          className="border"
-          value={form.price}
-          onChange={handleOnChange}
-          placeholder="price"
-          name="price"
-        />
-        <input
-          type="number"
-          className="border"
-          value={form.quantity}
-          onChange={handleOnChange}
-          placeholder="quantity"
-          name="quantity"
-        />
-        <select
-          className="border"
-          name="categoryId"
-          onChange={handleOnChange}
-          required
-          value={form.categoryId}
-        >
-          <option value="" disabled>
-            Please Select
-          </option>
-          {categories.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.name}
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-semibold text-gray-900">แก้ไขข้อมูลสินค้า</h1>
+        <p className="text-sm text-gray-500 mt-1">อัปเดตรายละเอียดสินค้า</p>
+      </div>
+
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 space-y-4 max-w-2xl"
+      >
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <input
+            className={inputClass}
+            value={form.title}
+            onChange={handleOnChange}
+            placeholder="Title"
+            name="title"
+          />
+          <input
+            className={inputClass}
+            value={form.description}
+            onChange={handleOnChange}
+            placeholder="Description"
+            name="description"
+          />
+          <input
+            type="number"
+            className={inputClass}
+            value={form.price}
+            onChange={handleOnChange}
+            placeholder="price"
+            name="price"
+          />
+          <input
+            type="number"
+            className={inputClass}
+            value={form.quantity}
+            onChange={handleOnChange}
+            placeholder="quantity"
+            name="quantity"
+          />
+          <select
+            className={`${inputClass} sm:col-span-2`}
+            name="categoryId"
+            onChange={handleOnChange}
+            required
+            value={form.categoryId}
+          >
+            <option value="" disabled>
+              Please Select
             </option>
-          ))}
-        </select>
-        <hr />
+            {categories.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <hr className="border-gray-100" />
         <Uploadfile form={form} setForm={setForm} />
 
-        <button className="bg-blue-500">แก้ไขสินค้า</button>
-
-        <hr />
-        <br />
+        <button className="bg-blue-600 hover:bg-blue-700 transition-colors text-white text-sm font-medium px-5 py-2.5 rounded-lg shadow-sm">
+          แก้ไขสินค้า
+        </button>
       </form>
     </div>
   )

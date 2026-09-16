@@ -1,4 +1,4 @@
-import { Pencil, Trash } from 'lucide-react'
+import { Pencil, Trash2 } from 'lucide-react'
 import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react'
 import { toast } from 'react-toastify'
 import { Link } from 'react-router-dom'
@@ -16,6 +16,9 @@ const initialState: ProductForm = {
   categoryId: '',
   images: [],
 }
+
+const inputClass =
+  'w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
 
 const FormProduct = () => {
   const token = useEcomStore((state) => state.token)
@@ -67,137 +70,145 @@ const FormProduct = () => {
   }
 
   return (
-    <div className="container mx-auto p-4 bg-white shadow-md">
-      <form onSubmit={handleSubmit}>
-        <h1>เพิ่มข้อมูลสินค้า</h1>
-        <input
-          className="border"
-          value={form.title}
-          onChange={handleOnChange}
-          placeholder="Title"
-          name="title"
-        />
-        <input
-          className="border"
-          value={form.description}
-          onChange={handleOnChange}
-          placeholder="Description"
-          name="description"
-        />
-        <input
-          type="number"
-          className="border"
-          value={form.price}
-          onChange={handleOnChange}
-          placeholder="price"
-          name="price"
-        />
-        <input
-          type="number"
-          className="border"
-          value={form.quantity}
-          onChange={handleOnChange}
-          placeholder="quantity"
-          name="quantity"
-        />
-        <select
-          className="border"
-          name="categoryId"
-          onChange={handleOnChange}
-          required
-          value={form.categoryId}
-        >
-          <option value="" disabled>
-            Please Select
-          </option>
-          {categories.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.name}
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-semibold text-gray-900">เพิ่มข้อมูลสินค้า</h1>
+        <p className="text-sm text-gray-500 mt-1">จัดการรายการสินค้าทั้งหมด</p>
+      </div>
+
+      <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <input
+            className={inputClass}
+            value={form.title}
+            onChange={handleOnChange}
+            placeholder="Title"
+            name="title"
+          />
+          <input
+            className={inputClass}
+            value={form.description}
+            onChange={handleOnChange}
+            placeholder="Description"
+            name="description"
+          />
+          <input
+            type="number"
+            className={inputClass}
+            value={form.price}
+            onChange={handleOnChange}
+            placeholder="price"
+            name="price"
+          />
+          <input
+            type="number"
+            className={inputClass}
+            value={form.quantity}
+            onChange={handleOnChange}
+            placeholder="quantity"
+            name="quantity"
+          />
+          <select
+            className={`${inputClass} sm:col-span-2`}
+            name="categoryId"
+            onChange={handleOnChange}
+            required
+            value={form.categoryId}
+          >
+            <option value="" disabled>
+              Please Select
             </option>
-          ))}
-        </select>
-        <hr />
+            {categories.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <hr className="border-gray-100" />
         <Uploadfile form={form} setForm={setForm} />
 
-        <button
-          className="bg-blue-500 p-2 rounded-md shadow-md
-                hover:scale-105 hover:-translate-y-1 hover:duration-200
-                "
-        >
+        <button className="bg-blue-600 hover:bg-blue-700 transition-colors text-white text-sm font-medium px-5 py-2.5 rounded-lg shadow-sm">
           เพิ่มสินค้า
         </button>
+      </form>
 
-        <hr />
-        <br />
-        <table className="table w-full border">
+      <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+        <table className="w-full text-sm">
           <thead>
-            <tr className="bg-gray-200 border">
-              <th scope="col">No.</th>
-              <th scope="col">รูปภาพ</th>
-              <th scope="col">ชื่อสินค้า</th>
-              <th scope="col">รายละเอียด</th>
-              <th scope="col">ราคา</th>
-              <th scope="col">จำนวน</th>
-              <th scope="col">จำนวนที่ขายได้</th>
-              <th scope="col">วันที่อัปเดต</th>
-              <th scope="col">จัดการ</th>
+            <tr className="bg-gray-50 border-b border-gray-200 text-left text-gray-500">
+              <th scope="col" className="px-4 py-3 font-medium">No.</th>
+              <th scope="col" className="px-4 py-3 font-medium">รูปภาพ</th>
+              <th scope="col" className="px-4 py-3 font-medium">ชื่อสินค้า</th>
+              <th scope="col" className="px-4 py-3 font-medium">รายละเอียด</th>
+              <th scope="col" className="px-4 py-3 font-medium">ราคา</th>
+              <th scope="col" className="px-4 py-3 font-medium">จำนวน</th>
+              <th scope="col" className="px-4 py-3 font-medium">ขายได้</th>
+              <th scope="col" className="px-4 py-3 font-medium">วันที่อัปเดต</th>
+              <th scope="col" className="px-4 py-3 font-medium">จัดการ</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="divide-y divide-gray-100">
+            {products.length === 0 && (
+              <tr>
+                <td colSpan={9} className="px-4 py-8 text-center text-gray-400">
+                  ยังไม่มีสินค้า
+                </td>
+              </tr>
+            )}
             {products.map((item, index) => {
               return (
-                <tr key={item.id}>
-                  <th scope="row">{index + 1}</th>
+                <tr key={item.id} className="hover:bg-gray-50/60 transition-colors">
+                  <td className="px-4 py-3 text-gray-500">{index + 1}</td>
 
-                  <td>
+                  <td className="px-4 py-3">
                     {item.images.length > 0 ? (
                       <img
-                        className="w-24 h-24 rounded-lg shadow-md"
+                        className="w-14 h-14 rounded-lg object-cover shadow-sm"
                         src={item.images[0].url}
                         alt={item.title}
                       />
                     ) : (
-                      <div
-                        className="w-24 h-24 bg-gray-200 rounded-md
-                                                    flex items-center justify-center shadow-sm"
-                      >
+                      <div className="w-14 h-14 bg-gray-100 rounded-lg flex items-center justify-center text-[10px] text-gray-400">
                         No Image
                       </div>
                     )}
                   </td>
 
-                  <td>{item.title}</td>
-                  <td>{item.description}</td>
-                  <td>{numberFormat(item.price)}</td>
-                  <td>{item.quantity}</td>
-                  <td>{item.sold}</td>
-                  <td>{item.updatedAt ? dateFormat(item.updatedAt) : ''}</td>
-                  <td className="flex gap-2">
-                    <p
-                      className="bg-yellow-500 rounded-md p-1
-                                            hover:scale-105 hover:-translate-y-1 hover:duration-200
-                                            shadow-md"
-                    >
-                      <Link to={'/admin/product/' + item.id}>
-                        <Pencil />
+                  <td className="px-4 py-3 font-medium text-gray-900">{item.title}</td>
+                  <td className="px-4 py-3 text-gray-500 max-w-[200px] truncate">
+                    {item.description}
+                  </td>
+                  <td className="px-4 py-3 text-gray-700">{numberFormat(item.price)}</td>
+                  <td className="px-4 py-3 text-gray-700">{item.quantity}</td>
+                  <td className="px-4 py-3 text-gray-700">{item.sold}</td>
+                  <td className="px-4 py-3 text-gray-500">
+                    {item.updatedAt ? dateFormat(item.updatedAt) : ''}
+                  </td>
+                  <td className="px-4 py-3">
+                    <div className="flex gap-1.5">
+                      <Link
+                        to={'/admin/product/' + item.id}
+                        className="text-gray-400 hover:text-amber-600 hover:bg-amber-50 transition-colors p-1.5 rounded-md"
+                      >
+                        <Pencil size={16} />
                       </Link>
-                    </p>
 
-                    <p
-                      className="bg-red-500 rounded-md p-1 shadow-md
-                                                hover:scale-105 hover:-translate-y-1 hover:duration-200
-                                                "
-                      onClick={() => handleDelete(item.id)}
-                    >
-                      <Trash />
-                    </p>
+                      <button
+                        className="text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors p-1.5 rounded-md"
+                        onClick={() => handleDelete(item.id)}
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               )
             })}
           </tbody>
         </table>
-      </form>
+      </div>
     </div>
   )
 }

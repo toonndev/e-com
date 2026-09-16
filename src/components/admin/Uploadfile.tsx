@@ -1,4 +1,4 @@
-import { Loader } from 'lucide-react'
+import { Loader, Upload, X } from 'lucide-react'
 import { useState, type ChangeEvent, type Dispatch, type SetStateAction } from 'react'
 import Resize from 'react-image-file-resizer'
 import { toast } from 'react-toastify'
@@ -79,26 +79,50 @@ const Uploadfile = <T extends UploadableForm>({
   }
 
   return (
-    <div className="my-4">
-      <div className="flex mx-4 gap-4 my-4">
-        {isLoading && <Loader className="w-16 h-16 animate-spin" />}
+    <div className="space-y-3">
+      <label className="block text-xs font-medium text-gray-500 uppercase tracking-wide">
+        รูปภาพสินค้า
+      </label>
 
+      <div className="flex flex-wrap gap-3">
         {form.images.map((item, index) => (
-          <div className="relative" key={index}>
-            <img className="w-24 h-24 hover:scale-105" src={item.url} alt="" />
+          <div className="relative group" key={index}>
+            <img
+              className="w-20 h-20 rounded-lg object-cover border border-gray-200"
+              src={item.url}
+              alt=""
+            />
 
-            <span
+            <button
+              type="button"
               onClick={() => handleDelete(item.public_id)}
-              className="absolute top-0 right-0 bg-red-500 p-1 rounded-md"
+              className="absolute -top-1.5 -right-1.5 bg-red-500 text-white p-0.5 rounded-full shadow-sm opacity-0 group-hover:opacity-100 transition-opacity"
             >
-              X
-            </span>
+              <X size={14} />
+            </button>
           </div>
         ))}
-      </div>
 
-      <div>
-        <input onChange={handleOnChange} type="file" name="images" multiple />
+        {isLoading && (
+          <div className="w-20 h-20 rounded-lg border border-dashed border-gray-300 flex items-center justify-center">
+            <Loader size={20} className="animate-spin text-gray-400" />
+          </div>
+        )}
+
+        <label
+          className="w-20 h-20 rounded-lg border border-dashed border-gray-300 flex flex-col items-center justify-center
+            gap-1 text-gray-400 hover:border-blue-400 hover:text-blue-500 transition-colors cursor-pointer"
+        >
+          <Upload size={18} />
+          <span className="text-[10px]">Upload</span>
+          <input
+            onChange={handleOnChange}
+            type="file"
+            name="images"
+            multiple
+            className="hidden"
+          />
+        </label>
       </div>
     </div>
   )

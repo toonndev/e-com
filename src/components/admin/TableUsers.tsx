@@ -51,48 +51,75 @@ const TableUsers = () => {
   }
 
   return (
-    <div className="container mx-auto p-4 bg-white shadow-md">
-      <table className="w-full">
-        <thead>
-          <tr>
-            <th>ลำดับ</th>
-            <th>Email</th>
-            <th>สิทธิ์</th>
-            <th>สถานะ</th>
-            <th>จัดการ</th>
-          </tr>
-        </thead>
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-semibold text-gray-900">Manage Users</h1>
+        <p className="text-sm text-gray-500 mt-1">จัดการสิทธิ์และสถานะผู้ใช้งาน</p>
+      </div>
 
-        <tbody>
-          {users?.map((el, i) => (
-            <tr key={el.id}>
-              <td>{i + 1}</td>
-              <td>{el.email}</td>
-
-              <td>
-                <select
-                  onChange={(e) => handleChangeUserRole(el.id, e.target.value)}
-                  value={el.role}
-                >
-                  <option>user</option>
-                  <option>admin</option>
-                </select>
-              </td>
-
-              <td>{el.enabled ? 'Active' : 'Inactive'}</td>
-              <td>
-                <button
-                  className="bg-yellow-500 text-white
-                  p-1 rounded-md shadow-md"
-                  onClick={() => handleChangeUserStatus(el.id, el.enabled)}
-                >
-                  {el.enabled ? 'Disable' : 'Enable'}
-                </button>
-              </td>
+      <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="bg-gray-50 border-b border-gray-200 text-left text-gray-500">
+              <th className="px-4 py-3 font-medium">ลำดับ</th>
+              <th className="px-4 py-3 font-medium">Email</th>
+              <th className="px-4 py-3 font-medium">สิทธิ์</th>
+              <th className="px-4 py-3 font-medium">สถานะ</th>
+              <th className="px-4 py-3 font-medium">จัดการ</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+
+          <tbody className="divide-y divide-gray-100">
+            {users.length === 0 && (
+              <tr>
+                <td colSpan={5} className="px-4 py-8 text-center text-gray-400">
+                  ยังไม่มีผู้ใช้งาน
+                </td>
+              </tr>
+            )}
+            {users?.map((el, i) => (
+              <tr key={el.id} className="hover:bg-gray-50/60 transition-colors">
+                <td className="px-4 py-3 text-gray-500">{i + 1}</td>
+                <td className="px-4 py-3 font-medium text-gray-900">{el.email}</td>
+
+                <td className="px-4 py-3">
+                  <select
+                    onChange={(e) => handleChangeUserRole(el.id, e.target.value)}
+                    value={el.role}
+                    className="border border-gray-300 rounded-lg px-2 py-1.5 text-xs
+                      focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option>user</option>
+                    <option>admin</option>
+                  </select>
+                </td>
+
+                <td className="px-4 py-3">
+                  <span
+                    className={`px-2.5 py-1 rounded-full text-xs font-medium ${
+                      el.enabled ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-500'
+                    }`}
+                  >
+                    {el.enabled ? 'Active' : 'Inactive'}
+                  </span>
+                </td>
+                <td className="px-4 py-3">
+                  <button
+                    className={`text-xs font-medium px-3 py-1.5 rounded-lg shadow-sm transition-colors ${
+                      el.enabled
+                        ? 'bg-amber-500 hover:bg-amber-600 text-white'
+                        : 'bg-emerald-500 hover:bg-emerald-600 text-white'
+                    }`}
+                    onClick={() => handleChangeUserStatus(el.id, el.enabled)}
+                  >
+                    {el.enabled ? 'Disable' : 'Enable'}
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }
