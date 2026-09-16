@@ -1,3 +1,4 @@
+import { CheckCircle2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { toast } from '../../utils/toast'
 import { useNavigate } from 'react-router-dom'
@@ -56,87 +57,74 @@ const SummaryCard = () => {
   }
 
   return (
-    <div className="mx-auto">
-      <div className="flex flex-wrap gap-4">
-        <div className="w-2/4">
-          <div
-            className="bg-gray-100 p-4 rounded-md
-          border shadow-md space-y-4"
+    <div className="max-w-4xl mx-auto px-4 py-6">
+      <h1 className="text-xl font-semibold text-gray-900 mb-6">สรุปคำสั่งซื้อ</h1>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5 space-y-3 h-fit">
+          <h2 className="font-semibold text-gray-900">ที่อยู่ในการจัดส่ง</h2>
+          <textarea
+            required
+            onChange={(e) => setAddress(e.target.value)}
+            placeholder="กรุณากรอกที่อยู่"
+            rows={4}
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm
+              focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          />
+          <button
+            onClick={hdlSaveAddress}
+            className="bg-blue-600 hover:bg-blue-700 transition-colors text-white
+              px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-1.5"
           >
-            <h1 className="font-bold text-lg">ที่อยู่ในการจัดส่ง</h1>
-            <textarea
-              required
-              onChange={(e) => setAddress(e.target.value)}
-              placeholder="กรุณากรอกที่อยู่"
-              className="w-full px-2 rounded-md"
-            />
-            <button
-              onClick={hdlSaveAddress}
-              className="bg-blue-500 text-white
-            px-4 py-2 rounded-md shadow-md hover:bg-blue-700
-            hover:scale-105 hover:translate-y-1 hover:duration-200"
-            >
-              Save Address
-            </button>
-          </div>
+            {addressSaved && <CheckCircle2 size={16} />}
+            {addressSaved ? 'บันทึกแล้ว' : 'Save Address'}
+          </button>
         </div>
 
-        <div className="w-2/4">
-          <div
-            className="bg-gray-100 p-4 rounded-md
-          border shadow-md space-y-4"
-          >
-            <h1 className="text-lg font-bold">คำสั่งซื้อของคุณ</h1>
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5 space-y-4">
+          <h2 className="font-semibold text-gray-900">คำสั่งซื้อของคุณ</h2>
 
+          <div className="space-y-3">
             {products?.map((item, index) => (
-              <div key={index}>
-                <div className="flex justify-between items-end">
-                  <div>
-                    <p className="font-bold">{item.product.title}</p>
-                    <p className="text-sm">
-                      จำนวน : {item.count} x {numberFormat(item.product.price)}
-                    </p>
-                  </div>
-
-                  <div>
-                    <p className="text-red-500 font-bold">
-                      {numberFormat(item.count * item.product.price)}
-                    </p>
-                  </div>
+              <div key={index} className="flex justify-between items-start">
+                <div>
+                  <p className="font-medium text-sm text-gray-900">{item.product.title}</p>
+                  <p className="text-xs text-gray-500">
+                    จำนวน : {item.count} x {numberFormat(item.product.price)}
+                  </p>
                 </div>
+
+                <p className="text-sm font-semibold text-gray-900">
+                  {numberFormat(item.count * item.product.price)}
+                </p>
               </div>
             ))}
+          </div>
 
-            <div>
-              <div className="flex justify-between">
-                <p>ค่าจัดส่ง:</p>
-                <p>0.00</p>
-              </div>
-              <div className="flex justify-between">
-                <p>ส่วนลด:</p>
-                <p>0.00</p>
-              </div>
+          <div className="space-y-1 text-sm text-gray-500">
+            <div className="flex justify-between">
+              <p>ค่าจัดส่ง:</p>
+              <p>0.00</p>
             </div>
-
-            <hr />
-            <div>
-              <div className="flex justify-between">
-                <p className="font-bold">ยอดรวมสุทธิ:</p>
-                <p className="text-red-500 font-bold text-lg">{numberFormat(cartTotal)}</p>
-              </div>
-            </div>
-
-            <hr />
-            <div>
-              <button
-                onClick={hdlGoToPayment}
-                className="bg-green-400 w-full p-2 rounded-md
-              shadow-md text-white hover:bg-green-600"
-              >
-                ดำเนินการชำระเงิน
-              </button>
+            <div className="flex justify-between">
+              <p>ส่วนลด:</p>
+              <p>0.00</p>
             </div>
           </div>
+
+          <hr className="border-gray-100" />
+          <div className="flex justify-between items-center">
+            <p className="font-semibold text-gray-900">ยอดรวมสุทธิ:</p>
+            <p className="font-semibold text-gray-900 text-lg">{numberFormat(cartTotal)}</p>
+          </div>
+
+          <button
+            onClick={hdlGoToPayment}
+            className="bg-blue-600 hover:bg-blue-700 transition-colors w-full py-2.5 rounded-lg
+              text-white font-medium text-sm"
+          >
+            ดำเนินการชำระเงิน
+          </button>
         </div>
       </div>
     </div>

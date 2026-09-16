@@ -29,11 +29,18 @@ const Payment = () => {
   const loader = 'auto' as const
 
   return (
-    <div>
-      {clientSecret && (
-        <Elements options={{ clientSecret, appearance, loader }} stripe={stripePromise}>
-          <CheckoutForm />
-        </Elements>
+    <div className="max-w-md mx-auto px-4 py-6">
+      <h1 className="text-xl font-semibold text-gray-900 mb-6">ชำระเงิน</h1>
+      {clientSecret ? (
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
+          <Elements options={{ clientSecret, appearance, loader }} stripe={stripePromise}>
+            <CheckoutForm />
+          </Elements>
+        </div>
+      ) : (
+        <div className="bg-white rounded-xl border border-gray-200 p-10 text-center text-gray-400">
+          กำลังโหลด...
+        </div>
       )}
     </div>
   )

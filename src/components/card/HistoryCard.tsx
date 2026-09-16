@@ -1,3 +1,4 @@
+import { PackageOpen } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { getOrders } from '../../api/user'
 import useEcomStore from '../../store/ecom-store'
@@ -28,67 +29,78 @@ const HistoryCard = () => {
   const getStatusColor = (status: OrderStatus) => {
     switch (status) {
       case 'Not Process':
-        return 'bg-gray-200'
+        return 'bg-gray-100 text-gray-700'
       case 'Processing':
-        return 'bg-blue-200'
+        return 'bg-blue-100 text-blue-700'
       case 'Completed':
-        return 'bg-green-200'
+        return 'bg-emerald-100 text-emerald-700'
       case 'Cancelled':
-        return 'bg-red-200'
+        return 'bg-red-100 text-red-700'
     }
   }
 
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-bold">ประวัติการสั่งซื้อ</h1>
+    <div className="max-w-3xl mx-auto px-4 py-6 space-y-4">
+      <h1 className="text-xl font-semibold text-gray-900">ประวัติการสั่งซื้อ</h1>
+
+      {orders.length === 0 && (
+        <div className="bg-white rounded-xl border border-gray-200 p-10 text-center text-gray-400 flex flex-col items-center gap-2">
+          <PackageOpen size={28} />
+          <p className="text-sm">ยังไม่มีประวัติการสั่งซื้อ</p>
+        </div>
+      )}
+
       <div className="space-y-4">
         {orders?.map((item) => {
           return (
-            <div key={item.id} className="bg-gray-100 p-4 rounded-md shadow-md">
-              <div className="flex justify-between mb-2">
+            <div key={item.id} className="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
+              <div className="flex justify-between items-center mb-3">
                 <div>
-                  <p className="text-sm">Order date</p>
-                  <p className="font-bold">{dateFormat(item.updatedAt ?? item.createdAt)}</p>
+                  <p className="text-xs text-gray-500">Order date</p>
+                  <p className="font-medium text-gray-900 text-sm">
+                    {dateFormat(item.updatedAt ?? item.createdAt)}
+                  </p>
                 </div>
-                <div>
-                  <span
-                    className={`${getStatusColor(item.orderStatus)}
-                  px-2 py-1 rounded-full`}
-                  >
-                    {item.orderStatus}
-                  </span>
-                </div>
+                <span
+                  className={`${getStatusColor(item.orderStatus)} px-2.5 py-1 rounded-full text-xs font-medium`}
+                >
+                  {item.orderStatus}
+                </span>
               </div>
-              <div>
-                <table className="border w-full">
+
+              <div className="rounded-lg border border-gray-100 overflow-hidden">
+                <table className="w-full text-sm">
                   <thead>
-                    <tr className="bg-gray-200">
-                      <th>สินค้า</th>
-                      <th>ราคา</th>
-                      <th>จำนวน</th>
-                      <th>รวม</th>
+                    <tr className="bg-gray-50 text-gray-500 text-left">
+                      <th className="px-3 py-2 font-medium">สินค้า</th>
+                      <th className="px-3 py-2 font-medium">ราคา</th>
+                      <th className="px-3 py-2 font-medium">จำนวน</th>
+                      <th className="px-3 py-2 font-medium">รวม</th>
                     </tr>
                   </thead>
 
-                  <tbody>
+                  <tbody className="divide-y divide-gray-100">
                     {item.products?.map((product, index) => {
                       return (
                         <tr key={index}>
-                          <td>{product.product.title}</td>
-                          <td>{numberFormat(product.product.price)}</td>
-                          <td>{product.count}</td>
-                          <td>{numberFormat(product.count * product.product.price)} </td>
+                          <td className="px-3 py-2 text-gray-900">{product.product.title}</td>
+                          <td className="px-3 py-2 text-gray-600">
+                            {numberFormat(product.product.price)}
+                          </td>
+                          <td className="px-3 py-2 text-gray-600">{product.count}</td>
+                          <td className="px-3 py-2 text-gray-900 font-medium">
+                            {numberFormat(product.count * product.product.price)}
+                          </td>
                         </tr>
                       )
                     })}
                   </tbody>
                 </table>
               </div>
-              <div>
-                <div className="text-right">
-                  <p>ราคาสุทธิ</p>
-                  <p>{numberFormat(item.cartTotal)}</p>
-                </div>
+
+              <div className="text-right mt-3">
+                <p className="text-xs text-gray-500">ราคาสุทธิ</p>
+                <p className="font-semibold text-gray-900">{numberFormat(item.cartTotal)}</p>
               </div>
             </div>
           )

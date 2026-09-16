@@ -1,9 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
-import { Eye, EyeOff } from 'lucide-react'
+import { Eye, EyeOff, UserPlus } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from '../../utils/toast'
+import { Link } from 'react-router-dom'
 import zxcvbn from 'zxcvbn'
 import { z } from 'zod'
 import { register as registerApi } from '../../api/auth'
@@ -20,6 +21,11 @@ const registerSchema = z
   })
 
 type RegisterFormData = z.infer<typeof registerSchema>
+
+const inputClass = (hasError: boolean) =>
+  `border w-full px-3 py-2 pr-10 rounded-lg text-sm
+   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+   ${hasError ? 'border-red-400' : 'border-gray-300'}`
 
 const Register = () => {
   const [passwordScore, setPasswordScore] = useState(0)
@@ -53,12 +59,13 @@ const Register = () => {
   }
 
   return (
-    <div
-      className="min-h-screen flex
-    items-center justify-center bg-gray-100"
-    >
-      <div className="w-full shadow-md bg-white p-8 max-w-md">
-        <h1 className="text-2xl text-center my-4 font-bold">Register</h1>
+    <div className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-gray-50 px-4 py-10">
+      <div className="w-full max-w-md bg-white rounded-xl border border-gray-200 shadow-sm p-8">
+        <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mx-auto mb-4">
+          <UserPlus size={22} />
+        </div>
+        <h1 className="text-xl font-semibold text-center text-gray-900">Register</h1>
+        <p className="text-sm text-gray-500 text-center mt-1 mb-6">สมัครสมาชิกใหม่</p>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-4">
@@ -66,13 +73,9 @@ const Register = () => {
               <input
                 {...register('email')}
                 placeholder="Email"
-                className={`border w-full px-3 py-2 rounded
-            focus:outline-none focus:ring-2 focus:ring-blue-500
-            focus:border-transparent
-            ${errors.email && 'border-red-500'}
-            `}
+                className={inputClass(!!errors.email)}
               />
-              {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+              {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
             </div>
 
             <div>
@@ -81,16 +84,12 @@ const Register = () => {
                   {...register('password')}
                   placeholder="Password"
                   type={showPassword ? 'text' : 'password'}
-                  className={`border w-full px-3 py-2 pr-10 rounded
-              focus:outline-none focus:ring-2 focus:ring-blue-500
-              focus:border-transparent
-              ${errors.password && 'border-red-500'}
-              `}
+                  className={inputClass(!!errors.password)}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                   tabIndex={-1}
                 >
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -98,23 +97,21 @@ const Register = () => {
               </div>
 
               {errors.password && (
-                <p className="text-red-500 text-sm">{errors.password.message}</p>
+                <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>
               )}
               {password?.length > 0 && (
-                <div className="flex mt-2">
+                <div className="flex gap-1 mt-2">
                   {Array.from(Array(5).keys()).map((_item, index) => (
-                    <span className="w-1/5 px-1" key={index}>
-                      <div
-                        className={`rounded h-2 ${
-                          passwordScore <= 2
-                            ? 'bg-red-500'
-                            : passwordScore < 4
-                              ? 'bg-yellow-500'
-                              : 'bg-green-500'
-                        }
-              `}
-                      ></div>
-                    </span>
+                    <div
+                      key={index}
+                      className={`flex-1 rounded-full h-1.5 ${
+                        passwordScore <= 2
+                          ? 'bg-red-500'
+                          : passwordScore < 4
+                            ? 'bg-yellow-500'
+                            : 'bg-green-500'
+                      }`}
+                    />
                   ))}
                 </div>
               )}
@@ -126,16 +123,12 @@ const Register = () => {
                   {...register('confirmPassword')}
                   type={showConfirmPassword ? 'text' : 'password'}
                   placeholder="Confirm Password"
-                  className={`border w-full px-3 py-2 pr-10 rounded
-                focus:outline-none focus:ring-2 focus:ring-blue-500
-                focus:border-transparent
-                ${errors.confirmPassword && 'border-red-500'}
-                `}
+                  className={inputClass(!!errors.confirmPassword)}
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                   tabIndex={-1}
                 >
                   {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -143,20 +136,22 @@ const Register = () => {
               </div>
 
               {errors.confirmPassword && (
-                <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>
+                <p className="text-red-500 text-xs mt-1">{errors.confirmPassword.message}</p>
               )}
             </div>
 
-            <button
-              className="bg-blue-500 rounded-md
-             w-full text-white font-bold py-2 shadow
-             hover:bg-blue-700
-             "
-            >
+            <button className="bg-blue-600 rounded-lg w-full text-white font-medium text-sm py-2.5 hover:bg-blue-700 transition-colors">
               Register
             </button>
           </div>
         </form>
+
+        <p className="text-sm text-gray-500 text-center mt-6">
+          มีบัญชีอยู่แล้ว?{' '}
+          <Link to="/login" className="text-blue-600 font-medium hover:underline">
+            Login
+          </Link>
+        </p>
       </div>
     </div>
   )

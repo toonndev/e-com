@@ -3,10 +3,10 @@ import MainNav from '../components/MainNav'
 
 const LayoutUser = () => {
   return (
-    <div>
+    <div className="min-h-screen bg-gray-50">
       <MainNav />
 
-      <main className="h-full px-4 mt-2 mx-auto">
+      <main className="h-full">
         <Outlet />
       </main>
     </div>
