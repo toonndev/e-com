@@ -1,10 +1,41 @@
 import { Loader, Upload, X } from 'lucide-react'
 import { useState, type ChangeEvent, type Dispatch, type SetStateAction } from 'react'
-import Resize from 'react-image-file-resizer'
+import * as ResizerModule from 'react-image-file-resizer'
 import { toast } from 'react-toastify'
 import { removeFiles, uploadFiles } from '../../api/product'
 import useEcomStore from '../../store/ecom-store'
 import type { ProductImage } from '../../types'
+
+// react-image-file-resizer is CommonJS-only and defines its own `default`
+// getter on module.exports. Vite/Rollup's CJS interop double-wraps this in
+// the production bundle (works fine in dev), so `import Resize from '...'`
+// silently becomes an object with no `imageFileResizer` method at runtime
+// (`Resize.default.imageFileResizer is not a function`). Resolve defensively
+// so it works whether the interop wraps it once, twice, or not at all.
+type ResizerShape = {
+  imageFileResizer: (
+    file: File,
+    maxWidth: number,
+    maxHeight: number,
+    compressFormat: string,
+    quality: number,
+    rotation: number,
+    responseUriFunc: (data: string) => void,
+    outputType: string,
+  ) => void
+}
+const resolveResizer = (mod: unknown): ResizerShape => {
+  let current = mod as { imageFileResizer?: unknown; default?: unknown }
+  for (let i = 0; i < 3; i++) {
+    if (typeof current?.imageFileResizer === 'function') {
+      return current as ResizerShape
+    }
+    if (!current?.default) break
+    current = current.default as typeof current
+  }
+  throw new Error('react-image-file-resizer: could not resolve imageFileResizer export')
+}
+const Resize = resolveResizer(ResizerModule)
 
 interface UploadableForm {
   images: ProductImage[]
