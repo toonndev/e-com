@@ -27,6 +27,8 @@ const FormEditProduct = () => {
   const categories = useEcomStore((state) => state.categories)
 
   const [form, setForm] = useState<ProductForm>(initialState)
+  const [priceInput, setPriceInput] = useState(String(initialState.price))
+  const [quantityInput, setQuantityInput] = useState(String(initialState.quantity))
 
   useEffect(() => {
     getCategory()
@@ -45,6 +47,8 @@ const FormEditProduct = () => {
         categoryId: String(res.data.categoryId ?? ''),
         images: res.data.images,
       })
+      setPriceInput(String(res.data.price))
+      setQuantityInput(String(res.data.quantity))
     } catch (err) {
       console.log('Err fetch data', err)
     }
@@ -54,8 +58,20 @@ const FormEditProduct = () => {
     const { name, value } = e.target
     setForm({
       ...form,
-      [name]: name === 'price' || name === 'quantity' ? Number(value) : value,
+      [name]: value,
     })
+  }
+
+  const handlePriceChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target
+    setPriceInput(value)
+    setForm({ ...form, price: value === '' ? 0 : Number(value) })
+  }
+
+  const handleQuantityChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target
+    setQuantityInput(value)
+    setForm({ ...form, quantity: value === '' ? 0 : Number(value) })
   }
 
   const handleSubmit = async (e: FormEvent) => {
@@ -117,9 +133,10 @@ const FormEditProduct = () => {
               type="number"
               step="0.01"
               min="0"
+              inputMode="decimal"
               className={inputClass}
-              value={form.price === 0 ? '' : form.price}
-              onChange={handleOnChange}
+              value={priceInput}
+              onChange={handlePriceChange}
               onFocus={(e) => e.target.select()}
               placeholder="price"
               name="price"
@@ -132,9 +149,12 @@ const FormEditProduct = () => {
             <input
               id="quantity"
               type="number"
+              step="1"
+              min="0"
+              inputMode="numeric"
               className={inputClass}
-              value={form.quantity === 0 ? '' : form.quantity}
-              onChange={handleOnChange}
+              value={quantityInput}
+              onChange={handleQuantityChange}
               onFocus={(e) => e.target.select()}
               placeholder="quantity"
               name="quantity"
