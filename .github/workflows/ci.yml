@@ -12,18 +12,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Must run before actions/setup-node's `cache: yarn`, which itself
+      # shells out to `yarn cache dir` as part of the action — if corepack
+      # isn't enabled yet at that point, that internal call still hits
+      # Classic and fails on the "packageManager" mismatch before our own
+      # install step ever runs.
+      - name: Enable corepack (Yarn Berry)
+        run: corepack enable
+
       - uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: yarn
-
-      # The runner's preinstalled `yarn` is Yarn Classic (1.x), not the
-      # Yarn 4 (Berry) this project uses (see "packageManager" in
-      # package.json). corepack reads that field and shims `yarn` to the
-      # right version — without it, Classic mis-resolves the Berry lockfile
-      # (e.g. 404s fetching rolldown, which Berry stores differently).
-      - name: Enable corepack (Yarn Berry)
-        run: corepack enable
 
       - name: Install dependencies
         run: yarn install --immutable
@@ -43,6 +43,9 @@ jobs:
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     steps:
       - uses: actions/checkout@v4
+
+      - name: Enable corepack (Yarn Berry)
+        run: corepack enable
 
       - uses: actions/setup-node@v4
         with:
