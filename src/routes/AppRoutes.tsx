@@ -16,6 +16,7 @@ import ManageOrders from '../pages/admin/ManageOrders'
 import Product from '../pages/admin/Product'
 import History from '../pages/user/History'
 import HomeUser from '../pages/user/HomeUser'
+import NotFound from '../pages/NotFound'
 import Payment from '../pages/user/Payment'
 import ProtectRouteAdmin from './ProtectRouteAdmin'
 import ProtectRouteUser from './ProtectRouteUser'
@@ -54,6 +55,7 @@ const router = createBrowserRouter([
       { path: 'history', element: <History /> },
     ],
   },
+  { path: '*', element: <NotFound /> },
 ])
 
 const AppRoutes = () => {
