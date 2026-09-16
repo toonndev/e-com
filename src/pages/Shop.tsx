@@ -14,22 +14,30 @@ const Shop = () => {
   }, [])
 
   return (
-    <div className="flex">
-      <div className="w-1/4 p-4 bg-gray-100 h-screen">
-        <SearchCard />
-      </div>
-
-      <div className="w-1/2 p-4 h-screen overflow-y-auto">
-        <p className="text-2xl font-bold mb-4">สินค้าทั้งหมด</p>
-        <div className="flex flex-wrap gap-4">
-          {products.map((item) => (
-            <ProductCard key={item.id} item={item} />
-          ))}
+    <div className="max-w-7xl mx-auto px-4 py-6">
+      <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr_300px] gap-6">
+        <div>
+          <SearchCard />
         </div>
-      </div>
 
-      <div className="w-1/4 p-4 bg-gray-100 h-screen overflow-y-auto">
-        <CartCard />
+        <div>
+          <p className="text-xl font-semibold text-gray-900 mb-4">สินค้าทั้งหมด</p>
+          {products.length === 0 ? (
+            <div className="bg-white rounded-xl border border-gray-200 p-10 text-center text-gray-400">
+              ไม่พบสินค้า
+            </div>
+          ) : (
+            <div className="flex flex-wrap gap-4">
+              {products.map((item) => (
+                <ProductCard key={item.id} item={item} />
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div>
+          <CartCard />
+        </div>
       </div>
     </div>
   )

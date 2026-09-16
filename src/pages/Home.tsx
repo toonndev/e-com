@@ -4,14 +4,18 @@ import NewProduct from '../components/home/NewProduct'
 
 const Home = () => {
   return (
-    <div>
+    <div className="max-w-7xl mx-auto px-4 py-6 space-y-10">
       <ContentCarousel />
 
-      <p className="text-2xl text-center my-4">สินค้าขายอย่างดี</p>
-      <BestSeller />
+      <section>
+        <h2 className="text-xl font-semibold text-gray-900 mb-4">สินค้าขายอย่างดี</h2>
+        <BestSeller />
+      </section>
 
-      <p className="text-2xl text-center my-4">สินค้าใหม่</p>
-      <NewProduct />
+      <section>
+        <h2 className="text-xl font-semibold text-gray-900 mb-4">สินค้าใหม่</h2>
+        <NewProduct />
+      </section>
     </div>
   )
 }

@@ -15,41 +15,34 @@ const ProductCard = ({ item }: { item: Product }) => {
       }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.2 }}
+      className="group bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md
+        transition-shadow overflow-hidden w-48"
     >
-      <div className="border rounded-md shadow-md p-2 w-48">
-        <div>
-          {item.images && item.images.length > 0 ? (
-            <img
-              src={item.images[0].url}
-              className="rounded-md w-full h-24 object-cover
-                        hover:scale-110 hover:duration-200"
-              alt={item.title}
-            />
-          ) : (
-            <div
-              className="w-full h-24 bg-gray-200 rounded-md
-                    text-center flex items-center justify-center shadow
-                    "
-            >
-              No Image
-            </div>
-          )}
-        </div>
+      <div className="aspect-square bg-gray-50 overflow-hidden">
+        {item.images && item.images.length > 0 ? (
+          <img
+            src={item.images[0].url}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            alt={item.title}
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-xs text-gray-400">
+            No Image
+          </div>
+        )}
+      </div>
 
-        <div className="py-2">
-          <p className="text-xl truncate">{item.title}</p>
-          <p className="text-sm text-gray-500 truncate">{item.description}</p>
-        </div>
+      <div className="p-3">
+        <p className="font-medium text-gray-900 truncate">{item.title}</p>
+        <p className="text-xs text-gray-500 truncate mt-0.5">{item.description}</p>
 
-        <div className="flex justify-between items-center">
-          <span className="text-sm font-bold">{numberFormat(item.price)}</span>
+        <div className="flex justify-between items-center mt-3">
+          <span className="font-semibold text-gray-900">{numberFormat(item.price)}</span>
           <button
             onClick={() => actionAddtoCart(item)}
-            className="bg-blue-500 rounded-md
-                p-2 hover:bg-blue-700 shadow-md
-                "
+            className="bg-blue-600 hover:bg-blue-700 transition-colors text-white rounded-lg p-2"
           >
-            <ShoppingCart />
+            <ShoppingCart size={16} />
           </button>
         </div>
       </div>

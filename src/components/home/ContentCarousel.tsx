@@ -37,7 +37,7 @@ const ContentCarousel = () => {
           disableOnInteraction: false,
         }}
         className="mySwiper h-80 object-cover
-        rounded-md mb-4"
+        rounded-xl shadow-sm mb-4"
       >
         {data?.map((item) => (
           <SwiperSlide key={item.id}>
@@ -56,7 +56,7 @@ const ContentCarousel = () => {
           delay: 2500,
           disableOnInteraction: false,
         }}
-        className="mySwiper object-cover rounded-md"
+        className="mySwiper object-cover rounded-xl"
       >
         {data?.map((item) => (
           <SwiperSlide key={item.id}>
