@@ -10,6 +10,12 @@ interface UploadableForm {
   images: ProductImage[]
 }
 
+// Browsers (esp. Chrome/Firefox) cannot decode HEIC/HEIF via <img>/canvas, which
+// react-image-file-resizer relies on. When decoding fails it has no onerror
+// handler and hangs forever with no feedback, so reject those formats up front.
+const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+const RESIZE_TIMEOUT_MS = 15000
+
 const Uploadfile = <T extends UploadableForm>({
   form,
   setForm,
@@ -22,42 +28,62 @@ const Uploadfile = <T extends UploadableForm>({
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!token) return
-    setIsLoading(true)
     const files = e.target.files
-    if (files) {
-      const allFiles = form.images
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i]
-        if (!file.type.startsWith('image/')) {
-          toast.error(`File ${file.name} บ่แม่นรูป`)
-          continue
-        }
-        Resize.imageFileResizer(
-          file,
-          720,
-          720,
-          'JPEG',
-          100,
-          0,
-          (data) => {
-            uploadFiles(token, data as string)
-              .then((res) => {
-                allFiles.push(res.data)
-                setForm({
-                  ...form,
-                  images: allFiles,
-                })
-                setIsLoading(false)
-                toast.success('Upload image Sucess!!!')
-              })
-              .catch((err) => {
-                console.log(err)
-                setIsLoading(false)
-              })
-          },
-          'base64',
-        )
+    if (!files) return
+
+    const allFiles = form.images
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i]
+
+      if (!file.type.startsWith('image/')) {
+        toast.error(`File ${file.name} บ่แม่นรูป`)
+        continue
       }
+      if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) {
+        toast.error(`File ${file.name} เป็นไฟล์รูปที่เบราว์เซอร์แสดงไม่ได้ (เช่น HEIC) กรุณาแปลงเป็น JPG/PNG ก่อน`)
+        continue
+      }
+
+      setIsLoading(true)
+
+      let settled = false
+      const timeoutId = window.setTimeout(() => {
+        if (settled) return
+        settled = true
+        setIsLoading(false)
+        toast.error(`อัปโหลด ${file.name} ไม่สำเร็จ (หมดเวลา) ลองใหม่หรือใช้ไฟล์อื่น`)
+      }, RESIZE_TIMEOUT_MS)
+
+      Resize.imageFileResizer(
+        file,
+        720,
+        720,
+        'JPEG',
+        100,
+        0,
+        (data) => {
+          if (settled) return
+          settled = true
+          window.clearTimeout(timeoutId)
+
+          uploadFiles(token, data as string)
+            .then((res) => {
+              allFiles.push(res.data)
+              setForm({
+                ...form,
+                images: allFiles,
+              })
+              setIsLoading(false)
+              toast.success('Upload image Sucess!!!')
+            })
+            .catch((err) => {
+              console.log(err)
+              setIsLoading(false)
+              toast.error(`อัปโหลด ${file.name} ไม่สำเร็จ`)
+            })
+        },
+        'base64',
+      )
     }
   }
 
