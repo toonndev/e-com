@@ -1,0 +1,54 @@
+{
+  "name": "e-com",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^5.9.1",
+    "@stripe/react-stripe-js": "^6.10.0",
+    "@stripe/stripe-js": "^9.16.0",
+    "axios": "^1.20.0",
+    "framer-motion": "^13.3.0",
+    "lodash": "^4.18.1",
+    "lucide-react": "^1.46.0",
+    "moment": "^2.31.0",
+    "numeral": "^2.0.6",
+    "rc-slider": "^11.1.9",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-hook-form": "^7.88.0",
+    "react-image-file-resizer": "^0.4.8",
+    "react-responsive-carousel": "^3.2.23",
+    "react-router-dom": "^7.18.3",
+    "react-toastify": "^11.1.0",
+    "swiper": "^14.2.0",
+    "zod": "^4.6.5",
+    "zustand": "^5.0.15",
+    "zxcvbn": "^4.4.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/lodash": "^4",
+    "@types/node": "^24.13.3",
+    "@types/numeral": "^2",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@types/zxcvbn": "^4",
+    "@vitejs/plugin-react": "^6.1.1",
+    "autoprefixer": "^10.6.0",
+    "oxlint": "^1.81.0",
+    "postcss": "^8.5.28",
+    "tailwindcss": "^4.3.3",
+    "typescript": "~6.0.2",
+    "vite": "^8.3.0"
+  }
+}
