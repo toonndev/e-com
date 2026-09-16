@@ -4,7 +4,7 @@ import { Eye, EyeOff, UserPlus } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from '../../utils/toast'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import zxcvbn from 'zxcvbn'
 import { z } from 'zod'
 import { register as registerApi } from '../../api/auth'
@@ -28,6 +28,7 @@ const inputClass = (hasError: boolean) =>
    ${hasError ? 'border-red-400' : 'border-gray-300'}`
 
 const Register = () => {
+  const navigate = useNavigate()
   const [passwordScore, setPasswordScore] = useState(0)
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -49,8 +50,9 @@ const Register = () => {
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
-      const res = await registerApi(data)
-      toast.success(String(res.data))
+      await registerApi(data)
+      toast.success('สมัครสมาชิกสำเร็จ กรุณาเข้าสู่ระบบเพื่อใช้งาน')
+      navigate('/login')
     } catch (err) {
       if (axios.isAxiosError<{ message: string }>(err)) {
         toast.error(err.response?.data.message)

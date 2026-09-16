@@ -5,6 +5,7 @@ import { listCategory } from '../api/Category'
 import { login, type LoginForm } from '../api/auth'
 import { listProduct, searchFilters, type SearchFiltersArg } from '../api/product'
 import type { CartItem, Category, Product, User } from '../types'
+import { toast } from '../utils/toast'
 
 interface EcomState {
   user: User | null
@@ -47,18 +48,27 @@ const ecomStore = (
     const updateCart = [...carts, { ...product, count: 1 }]
     const uniqe = _.unionWith(updateCart, _.isEqual)
     set({ carts: uniqe })
+    toast.success(`เพิ่ม "${product.title}" ลงในตะกร้าเรียบร้อยแล้ว`)
   },
   actionUpdateQuantity: (productId, newQuantity) => {
+    const item = get().carts.find((item) => item.id === productId)
     set({
       carts: get().carts.map((item) =>
         item.id === productId ? { ...item, count: Math.max(1, newQuantity) } : item,
       ),
     })
+    if (item) {
+      toast.success(`อัปเดตจำนวน "${item.title}" ในตะกร้าเรียบร้อยแล้ว`)
+    }
   },
   actionRemoveProduct: (productId) => {
+    const item = get().carts.find((item) => item.id === productId)
     set({
       carts: get().carts.filter((item) => item.id !== productId),
     })
+    if (item) {
+      toast.success(`นำ "${item.title}" ออกจากตะกร้าเรียบร้อยแล้ว`)
+    }
   },
   getTotalPrice: () => {
     return get().carts.reduce((total, item) => total + item.price * item.count, 0)

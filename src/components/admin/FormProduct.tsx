@@ -67,7 +67,7 @@ const FormProduct = () => {
       setPriceInput('')
       setQuantityInput('')
       getProduct()
-      toast.success(`เพิ่มข้อมูล ${res.data.title} สำเร็จ`)
+      toast.success(`เพิ่มสินค้า "${res.data.title}" เรียบร้อยแล้ว`)
     } catch (err) {
       console.log(err)
     }
@@ -78,7 +78,7 @@ const FormProduct = () => {
     if (window.confirm('จะลบจริงๆ หรอ')) {
       try {
         await deleteProduct(token, String(id))
-        toast.success('Deleted สินค้าเรียบร้อยแล้ว')
+        toast.success('ลบสินค้าเรียบร้อยแล้ว')
         getProduct()
       } catch (err) {
         console.log(err)

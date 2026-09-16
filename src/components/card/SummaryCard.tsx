@@ -35,7 +35,7 @@ const SummaryCard = () => {
 
   const hdlSaveAddress = () => {
     if (!address) {
-      toast.warning('Please fill address')
+      toast.warning('กรุณากรอกที่อยู่จัดส่ง')
       return
     }
     if (!token) return
@@ -50,7 +50,7 @@ const SummaryCard = () => {
   }
   const hdlGoToPayment = () => {
     if (!addressSaved) {
-      toast.warning('กรุณากรอกทีอยู่ก่อนจ้า')
+      toast.warning('กรุณาบันทึกที่อยู่จัดส่งก่อนดำเนินการชำระเงิน')
       return
     }
     navigate('/user/payment')

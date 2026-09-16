@@ -18,12 +18,12 @@ const FormCategory = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     if (!name || !token) {
-      toast.warning('Please fill data')
+      toast.warning('กรุณากรอกชื่อหมวดหมู่สินค้า')
       return
     }
     try {
       const res = await createCategory(token, { name })
-      toast.success(`Add Category ${res.data.name} success!!!`)
+      toast.success(`เพิ่มหมวดหมู่ "${res.data.name}" สำเร็จ`)
       setName('')
       getCategory()
     } catch (err) {
@@ -35,7 +35,7 @@ const FormCategory = () => {
     if (!token) return
     try {
       const res = await removeCategory(token, id)
-      toast.success(`Deleted ${res.data.name} success`)
+      toast.success(`ลบหมวดหมู่ "${res.data.name}" สำเร็จ`)
       getCategory()
     } catch (err) {
       console.log(err)
@@ -60,7 +60,7 @@ const FormCategory = () => {
             type="text"
           />
           <button className="bg-blue-600 hover:bg-blue-700 transition-colors text-white text-sm font-medium px-4 py-2 rounded-lg shadow-sm">
-            Add Category
+            เพิ่มหมวดหมู่
           </button>
         </form>
 

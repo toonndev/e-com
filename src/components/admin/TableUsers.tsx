@@ -31,7 +31,7 @@ const TableUsers = () => {
     changeUserStatus(token, value)
       .then(() => {
         handleGetUsers(token)
-        toast.success('Update Status Success!!')
+        toast.success('อัปเดตสถานะผู้ใช้งานเรียบร้อยแล้ว')
       })
       .catch((err) => console.log(err))
   }
@@ -45,7 +45,7 @@ const TableUsers = () => {
     changeUserRole(token, value)
       .then(() => {
         handleGetUsers(token)
-        toast.success('Update Role Success!!')
+        toast.success('อัปเดตสิทธิ์ผู้ใช้งานเรียบร้อยแล้ว')
       })
       .catch((err) => console.log(err))
   }
