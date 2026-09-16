@@ -52,7 +52,9 @@ const Register = () => {
     try {
       await registerApi(data)
       toast.success('สมัครสมาชิกสำเร็จ')
-      navigate('/login')
+      // replace (not push) so Login's `navigate(-1)` for non-admin roles
+      // doesn't bounce back to /register after a register -> login flow
+      navigate('/login', { replace: true })
     } catch (err) {
       if (axios.isAxiosError<{ message: string }>(err)) {
         toast.error(err.response?.data.message)
