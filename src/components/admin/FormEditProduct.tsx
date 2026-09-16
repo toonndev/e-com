@@ -115,6 +115,8 @@ const FormEditProduct = () => {
             <input
               id="price"
               type="number"
+              step="0.01"
+              min="0"
               className={inputClass}
               value={form.price === 0 ? '' : form.price}
               onChange={handleOnChange}
