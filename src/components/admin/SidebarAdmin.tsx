@@ -6,9 +6,18 @@ import {
   SquareChartGantt,
   UserCog,
 } from 'lucide-react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
+import useEcomStore from '../../store/ecom-store'
 
 const SidebarAdmin = () => {
+  const logout = useEcomStore((state) => state.logout)
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    logout()
+    navigate('/')
+  }
+
   return (
     <div
       className="bg-gray-800 w-64 text-gray-100
@@ -84,17 +93,13 @@ const SidebarAdmin = () => {
       </nav>
 
       <div>
-        <NavLink
-          to="#"
-          className={({ isActive }) =>
-            isActive
-              ? 'bg-gray-900 rounded-md text-white px-4 py-2 flex items-center'
-              : 'text-gray-300 px-4 py-2 hover:bg-gray-700 hover:text-white rounded flex items-center'
-          }
+        <button
+          onClick={handleLogout}
+          className="w-full text-gray-300 px-4 py-2 hover:bg-gray-700 hover:text-white rounded flex items-center"
         >
           <LogOut className="mr-2" />
           Logout
-        </NavLink>
+        </button>
       </div>
     </div>
   )
