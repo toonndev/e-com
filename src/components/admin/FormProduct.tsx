@@ -28,7 +28,7 @@ const FormProduct = () => {
   const getProduct = useEcomStore((state) => state.getProduct)
   const products = useEcomStore((state) => state.products)
 
-  const [form, setForm] = useState<ProductForm>(initialState)
+  const [form, setForm] = useState<ProductForm>(() => ({ ...initialState, images: [] }))
   const [priceInput, setPriceInput] = useState('')
   const [quantityInput, setQuantityInput] = useState('')
 
@@ -63,7 +63,9 @@ const FormProduct = () => {
     if (!token) return
     try {
       const res = await createProduct(token, form)
-      setForm(initialState)
+      // Fresh object/array, not a reference to the shared initialState —
+      // otherwise mutations from a later upload would leak into it.
+      setForm({ ...initialState, images: [] })
       setPriceInput('')
       setQuantityInput('')
       getProduct()

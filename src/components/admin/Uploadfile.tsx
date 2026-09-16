@@ -70,7 +70,6 @@ const Uploadfile = <T extends UploadableForm>({
     // later fires no change event at all (the input's value never changed).
     e.target.value = ''
 
-    const allFiles = form.images
     for (let i = 0; i < files.length; i++) {
       const file = files[i]
 
@@ -107,11 +106,10 @@ const Uploadfile = <T extends UploadableForm>({
 
           uploadFiles(token, data as string)
             .then((res) => {
-              allFiles.push(res.data)
-              setForm({
-                ...form,
-                images: allFiles,
-              })
+              setForm((prev) => ({
+                ...prev,
+                images: [...prev.images, res.data],
+              }))
               setIsLoading(false)
               toast.success('อัปโหลดรูปภาพแล้ว')
             })
@@ -128,14 +126,12 @@ const Uploadfile = <T extends UploadableForm>({
 
   const handleDelete = (public_id: string) => {
     if (!token) return
-    const images = form.images
     removeFiles(token, public_id)
       .then(() => {
-        const filterImages = images.filter((item) => item.public_id !== public_id)
-        setForm({
-          ...form,
-          images: filterImages,
-        })
+        setForm((prev) => ({
+          ...prev,
+          images: prev.images.filter((item) => item.public_id !== public_id),
+        }))
         toast.success('ลบรูปภาพแล้ว')
       })
       .catch((err) => {
