@@ -72,11 +72,11 @@ const Uploadfile = <T extends UploadableForm>({
       const file = files[i]
 
       if (!file.type.startsWith('image/')) {
-        toast.error(`File ${file.name} บ่แม่นรูป`)
+        toast.error(`ไฟล์ "${file.name}" ไม่ใช่รูปภาพ`)
         continue
       }
       if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) {
-        toast.error(`File ${file.name} เป็นไฟล์รูปที่เบราว์เซอร์แสดงไม่ได้ (เช่น HEIC) กรุณาแปลงเป็น JPG/PNG ก่อน`)
+        toast.error(`ไฟล์ "${file.name}" ไม่รองรับ (เช่น HEIC) กรุณาแปลงเป็น JPG/PNG`)
         continue
       }
 
@@ -87,7 +87,7 @@ const Uploadfile = <T extends UploadableForm>({
         if (settled) return
         settled = true
         setIsLoading(false)
-        toast.error(`อัปโหลด ${file.name} ไม่สำเร็จ (หมดเวลา) ลองใหม่หรือใช้ไฟล์อื่น`)
+        toast.error(`อัปโหลด "${file.name}" หมดเวลา ลองใหม่อีกครั้ง`)
       }, RESIZE_TIMEOUT_MS)
 
       Resize.imageFileResizer(
@@ -110,12 +110,12 @@ const Uploadfile = <T extends UploadableForm>({
                 images: allFiles,
               })
               setIsLoading(false)
-              toast.success('Upload image Sucess!!!')
+              toast.success('อัปโหลดรูปภาพแล้ว')
             })
             .catch((err) => {
               console.log(err)
               setIsLoading(false)
-              toast.error(`อัปโหลด ${file.name} ไม่สำเร็จ`)
+              toast.error(`อัปโหลด "${file.name}" ไม่สำเร็จ`)
             })
         },
         'base64',
@@ -127,13 +127,13 @@ const Uploadfile = <T extends UploadableForm>({
     if (!token) return
     const images = form.images
     removeFiles(token, public_id)
-      .then((res) => {
+      .then(() => {
         const filterImages = images.filter((item) => item.public_id !== public_id)
         setForm({
           ...form,
           images: filterImages,
         })
-        toast.error(res.data.message)
+        toast.success('ลบรูปภาพแล้ว')
       })
       .catch((err) => {
         console.log(err)

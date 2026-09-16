@@ -79,7 +79,7 @@ const FormEditProduct = () => {
     if (!token || !id) return
     try {
       const res = await updateProduct(token, id, form)
-      toast.success(`เพิ่มข้อมูล ${res.data.title} สำเร็จ`)
+      toast.success(`แก้ไขสินค้า "${res.data.title}" แล้ว`)
       navigate('/admin/product')
     } catch (err) {
       console.log(err)
