@@ -17,6 +17,14 @@ jobs:
           node-version: 24
           cache: yarn
 
+      # The runner's preinstalled `yarn` is Yarn Classic (1.x), not the
+      # Yarn 4 (Berry) this project uses (see "packageManager" in
+      # package.json). corepack reads that field and shims `yarn` to the
+      # right version — without it, Classic mis-resolves the Berry lockfile
+      # (e.g. 404s fetching rolldown, which Berry stores differently).
+      - name: Enable corepack (Yarn Berry)
+        run: corepack enable
+
       - name: Install dependencies
         run: yarn install --immutable
 
