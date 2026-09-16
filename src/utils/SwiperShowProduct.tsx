@@ -25,6 +25,13 @@ const SwiperShowProduct = ({ children }: { children: ReactNode }) => {
         delay: 2500,
         disableOnInteraction: false,
       }}
+      // BestSeller/NewProduct fetch their product list asynchronously, so
+      // Swiper mounts with zero slides and measures a (bogus) "auto" width
+      // before any cards exist. observer/observeParents make it watch the
+      // DOM and re-measure once the real slides render, instead of being
+      // stuck with that initial empty-container layout.
+      observer
+      observeParents
       className="mySwiper object-cover rounded-md"
     >
       {children}
