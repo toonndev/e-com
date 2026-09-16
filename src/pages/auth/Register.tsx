@@ -51,7 +51,7 @@ const Register = () => {
   const onSubmit = async (data: RegisterFormData) => {
     try {
       await registerApi(data)
-      toast.success('สมัครสมาชิกสำเร็จ กรุณาเข้าสู่ระบบเพื่อใช้งาน')
+      toast.success('สมัครสมาชิกสำเร็จ')
       navigate('/login')
     } catch (err) {
       if (axios.isAxiosError<{ message: string }>(err)) {

@@ -39,14 +39,14 @@ export default function CheckoutForm() {
       saveOrder(token, payload)
         .then(() => {
           clearCart()
-          toast.success('ชำระเงินสำเร็จ ขอบคุณที่ใช้บริการ')
+          toast.success('ชำระเงินสำเร็จ')
           navigate('/user/history')
         })
         .catch((err) => {
           console.log(err)
         })
     } else {
-      toast.warning('การชำระเงินไม่สำเร็จ กรุณาลองใหม่อีกครั้ง')
+      toast.warning('ชำระเงินไม่สำเร็จ ลองใหม่อีกครั้ง')
     }
 
     setIsLoading(false)

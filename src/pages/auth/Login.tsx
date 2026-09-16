@@ -26,7 +26,7 @@ const Login = () => {
       const res = await actionLogin(form)
       const role = res.data.payload.role
       roleRedirect(role)
-      toast.success('เข้าสู่ระบบสำเร็จ ยินดีต้อนรับกลับมา')
+      toast.success('เข้าสู่ระบบสำเร็จ')
     } catch (err) {
       if (axios.isAxiosError<{ message: string }>(err)) {
         toast.error(err.response?.data.message)

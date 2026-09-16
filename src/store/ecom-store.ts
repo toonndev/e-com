@@ -48,7 +48,7 @@ const ecomStore = (
     const updateCart = [...carts, { ...product, count: 1 }]
     const uniqe = _.unionWith(updateCart, _.isEqual)
     set({ carts: uniqe })
-    toast.success(`เพิ่ม "${product.title}" ลงในตะกร้าเรียบร้อยแล้ว`)
+    toast.success(`เพิ่ม "${product.title}" ลงตะกร้าแล้ว`)
   },
   actionUpdateQuantity: (productId, newQuantity) => {
     const item = get().carts.find((item) => item.id === productId)
@@ -58,7 +58,7 @@ const ecomStore = (
       ),
     })
     if (item) {
-      toast.success(`อัปเดตจำนวน "${item.title}" ในตะกร้าเรียบร้อยแล้ว`)
+      toast.success(`อัปเดตจำนวน "${item.title}" แล้ว`)
     }
   },
   actionRemoveProduct: (productId) => {
@@ -67,7 +67,7 @@ const ecomStore = (
       carts: get().carts.filter((item) => item.id !== productId),
     })
     if (item) {
-      toast.success(`นำ "${item.title}" ออกจากตะกร้าเรียบร้อยแล้ว`)
+      toast.success(`นำ "${item.title}" ออกจากตะกร้าแล้ว`)
     }
   },
   getTotalPrice: () => {

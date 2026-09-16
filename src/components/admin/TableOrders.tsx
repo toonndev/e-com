@@ -29,7 +29,7 @@ const TableOrders = () => {
   const handleChangeOrderStatus = (token: string, orderId: number, orderStatus: OrderStatus) => {
     changeOrderStatus(token, orderId, orderStatus)
       .then(() => {
-        toast.success('อัปเดตสถานะคำสั่งซื้อเรียบร้อยแล้ว')
+        toast.success('อัปเดตสถานะคำสั่งซื้อแล้ว')
         handleGetOrder(token)
       })
       .catch((err) => {

@@ -18,7 +18,7 @@ const ListCart = () => {
     if (!token) return
     await createUserCart(token, { cart })
       .then(() => {
-        toast.success('บันทึกรายการสั่งซื้อเรียบร้อยแล้ว', {
+        toast.success('บันทึกรายการแล้ว', {
           position: 'top-center',
         })
         navigate('/checkout')

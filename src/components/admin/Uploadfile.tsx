@@ -76,9 +76,7 @@ const Uploadfile = <T extends UploadableForm>({
         continue
       }
       if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) {
-        toast.error(
-          `ไฟล์ "${file.name}" เป็นรูปภาพที่เบราว์เซอร์ไม่รองรับ (เช่น HEIC) กรุณาแปลงเป็น JPG หรือ PNG ก่อนอัปโหลด`,
-        )
+        toast.error(`ไฟล์ "${file.name}" ไม่รองรับ (เช่น HEIC) กรุณาแปลงเป็น JPG/PNG`)
         continue
       }
 
@@ -89,7 +87,7 @@ const Uploadfile = <T extends UploadableForm>({
         if (settled) return
         settled = true
         setIsLoading(false)
-        toast.error(`อัปโหลด "${file.name}" ไม่สำเร็จเนื่องจากใช้เวลานานเกินไป กรุณาลองใหม่อีกครั้ง`)
+        toast.error(`อัปโหลด "${file.name}" หมดเวลา ลองใหม่อีกครั้ง`)
       }, RESIZE_TIMEOUT_MS)
 
       Resize.imageFileResizer(
@@ -112,12 +110,12 @@ const Uploadfile = <T extends UploadableForm>({
                 images: allFiles,
               })
               setIsLoading(false)
-              toast.success('อัปโหลดรูปภาพเรียบร้อยแล้ว')
+              toast.success('อัปโหลดรูปภาพแล้ว')
             })
             .catch((err) => {
               console.log(err)
               setIsLoading(false)
-              toast.error(`อัปโหลด "${file.name}" ไม่สำเร็จ กรุณาลองใหม่อีกครั้ง`)
+              toast.error(`อัปโหลด "${file.name}" ไม่สำเร็จ`)
             })
         },
         'base64',
@@ -135,7 +133,7 @@ const Uploadfile = <T extends UploadableForm>({
           ...form,
           images: filterImages,
         })
-        toast.success('ลบรูปภาพเรียบร้อยแล้ว')
+        toast.success('ลบรูปภาพแล้ว')
       })
       .catch((err) => {
         console.log(err)

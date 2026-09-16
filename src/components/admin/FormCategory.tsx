@@ -18,7 +18,7 @@ const FormCategory = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     if (!name || !token) {
-      toast.warning('กรุณากรอกชื่อหมวดหมู่สินค้า')
+      toast.warning('กรุณากรอกชื่อหมวดหมู่')
       return
     }
     try {
