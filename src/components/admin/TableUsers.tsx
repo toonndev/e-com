@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
+import { toast } from '../../utils/toast'
 import { changeUserRole, changeUserStatus, getListAllUsers } from '../../api/admin'
 import useEcomStore from '../../store/ecom-store'
 import type { User } from '../../types'

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { Eye, EyeOff } from 'lucide-react'
 import { useState, type ChangeEvent, type FormEvent } from 'react'
-import { toast } from 'react-toastify'
+import { toast } from '../../utils/toast'
 import { useNavigate } from 'react-router-dom'
 import useEcomStore from '../../store/ecom-store'
 

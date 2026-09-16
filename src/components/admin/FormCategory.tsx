@@ -1,6 +1,6 @@
 import { Tag, Trash2 } from 'lucide-react'
 import { useEffect, useState, type FormEvent } from 'react'
-import { toast } from 'react-toastify'
+import { toast } from '../../utils/toast'
 import { createCategory, removeCategory } from '../../api/Category'
 import useEcomStore from '../../store/ecom-store'
 

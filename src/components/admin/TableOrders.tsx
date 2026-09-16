@@ -1,5 +1,5 @@
 import { useEffect, useState, type ChangeEvent } from 'react'
-import { toast } from 'react-toastify'
+import { toast } from '../../utils/toast'
 import { changeOrderStatus, getOrdersAdmin } from '../../api/admin'
 import useEcomStore from '../../store/ecom-store'
 import type { Order, OrderStatus } from '../../types'

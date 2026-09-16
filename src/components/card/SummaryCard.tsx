@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
+import { toast } from '../../utils/toast'
 import { useNavigate } from 'react-router-dom'
 import { listUserCart, saveAddress, type UserCartResponse } from '../../api/user'
 import useEcomStore from '../../store/ecom-store'
