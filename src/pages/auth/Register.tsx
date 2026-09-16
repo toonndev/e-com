@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
+import { Eye, EyeOff } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
@@ -22,6 +23,8 @@ type RegisterFormData = z.infer<typeof registerSchema>
 
 const Register = () => {
   const [passwordScore, setPasswordScore] = useState(0)
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
   const {
     register,
@@ -73,16 +76,26 @@ const Register = () => {
             </div>
 
             <div>
-              <input
-                {...register('password')}
-                placeholder="Password"
-                type="password"
-                className={`border w-full px-3 py-2 rounded
+              <div className="relative">
+                <input
+                  {...register('password')}
+                  placeholder="Password"
+                  type={showPassword ? 'text' : 'password'}
+                  className={`border w-full px-3 py-2 pr-10 rounded
               focus:outline-none focus:ring-2 focus:ring-blue-500
               focus:border-transparent
               ${errors.password && 'border-red-500'}
               `}
-              />
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+                  tabIndex={-1}
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
 
               {errors.password && (
                 <p className="text-red-500 text-sm">{errors.password.message}</p>
@@ -108,16 +121,26 @@ const Register = () => {
             </div>
 
             <div>
-              <input
-                {...register('confirmPassword')}
-                type="password"
-                placeholder="Confirm Password"
-                className={`border w-full px-3 py-2 rounded
+              <div className="relative">
+                <input
+                  {...register('confirmPassword')}
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  placeholder="Confirm Password"
+                  className={`border w-full px-3 py-2 pr-10 rounded
                 focus:outline-none focus:ring-2 focus:ring-blue-500
                 focus:border-transparent
                 ${errors.confirmPassword && 'border-red-500'}
                 `}
-              />
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+                  tabIndex={-1}
+                >
+                  {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
 
               {errors.confirmPassword && (
                 <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>

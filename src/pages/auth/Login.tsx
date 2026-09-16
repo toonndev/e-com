@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Eye, EyeOff } from 'lucide-react'
 import { useState, type ChangeEvent, type FormEvent } from 'react'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
@@ -11,6 +12,7 @@ const Login = () => {
     email: '',
     password: '',
   })
+  const [showPassword, setShowPassword] = useState(false)
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setForm({
@@ -60,15 +62,25 @@ const Login = () => {
               type="email"
             />
 
-            <input
-              placeholder="Password"
-              className="border w-full px-3 py-2 rounded
+            <div className="relative">
+              <input
+                placeholder="Password"
+                className="border w-full px-3 py-2 pr-10 rounded
                     focus:outline-none focus:ring-2 focus:ring-blue-500
                     focus:border-transparent"
-              onChange={handleOnChange}
-              name="password"
-              type="password"
-            />
+                onChange={handleOnChange}
+                name="password"
+                type={showPassword ? 'text' : 'password'}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+                tabIndex={-1}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
             <button
               className="bg-blue-500 rounded-md
              w-full text-white font-bold py-2 shadow
