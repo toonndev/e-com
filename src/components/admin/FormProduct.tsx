@@ -19,6 +19,7 @@ const initialState: ProductForm = {
 
 const inputClass =
   'w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+const labelClass = 'block text-xs font-medium text-gray-500 mb-1'
 
 const FormProduct = () => {
   const token = useEcomStore((state) => state.token)
@@ -78,52 +79,82 @@ const FormProduct = () => {
 
       <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <input
-            className={inputClass}
-            value={form.title}
-            onChange={handleOnChange}
-            placeholder="Title"
-            name="title"
-          />
-          <input
-            className={inputClass}
-            value={form.description}
-            onChange={handleOnChange}
-            placeholder="Description"
-            name="description"
-          />
-          <input
-            type="number"
-            className={inputClass}
-            value={form.price}
-            onChange={handleOnChange}
-            placeholder="price"
-            name="price"
-          />
-          <input
-            type="number"
-            className={inputClass}
-            value={form.quantity}
-            onChange={handleOnChange}
-            placeholder="quantity"
-            name="quantity"
-          />
-          <select
-            className={`${inputClass} sm:col-span-2`}
-            name="categoryId"
-            onChange={handleOnChange}
-            required
-            value={form.categoryId}
-          >
-            <option value="" disabled>
-              Please Select
-            </option>
-            {categories.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.name}
+          <div>
+            <label htmlFor="title" className={labelClass}>
+              ชื่อสินค้า
+            </label>
+            <input
+              id="title"
+              className={inputClass}
+              value={form.title}
+              onChange={handleOnChange}
+              placeholder="Title"
+              name="title"
+            />
+          </div>
+          <div>
+            <label htmlFor="description" className={labelClass}>
+              รายละเอียดสินค้า
+            </label>
+            <input
+              id="description"
+              className={inputClass}
+              value={form.description}
+              onChange={handleOnChange}
+              placeholder="Description"
+              name="description"
+            />
+          </div>
+          <div>
+            <label htmlFor="price" className={labelClass}>
+              ราคา (บาท)
+            </label>
+            <input
+              id="price"
+              type="number"
+              className={inputClass}
+              value={form.price}
+              onChange={handleOnChange}
+              placeholder="price"
+              name="price"
+            />
+          </div>
+          <div>
+            <label htmlFor="quantity" className={labelClass}>
+              จำนวนคงเหลือ
+            </label>
+            <input
+              id="quantity"
+              type="number"
+              className={inputClass}
+              value={form.quantity}
+              onChange={handleOnChange}
+              placeholder="quantity"
+              name="quantity"
+            />
+          </div>
+          <div className="sm:col-span-2">
+            <label htmlFor="categoryId" className={labelClass}>
+              หมวดหมู่สินค้า
+            </label>
+            <select
+              id="categoryId"
+              className={inputClass}
+              name="categoryId"
+              onChange={handleOnChange}
+              required
+              value={form.categoryId}
+            >
+              <option value="" disabled>
+                Please Select
               </option>
-            ))}
-          </select>
+              {categories.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
         <hr className="border-gray-100" />
